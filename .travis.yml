@@ -12,7 +12,7 @@ services:
 
 install:
   - cd $TRAVIS_BUILD_DIR/service && make all
-  - cd $TRAVIS_BUILD_DIR/app && yarn install
+  #- cd $TRAVIS_BUILD_DIR/app && yarn install
 
 before_script:
   - docker pull dgraph/dgraph
@@ -25,20 +25,21 @@ script:
   - go test -v ./... -coverprofile=coverage.txt -covermode=atomic
   - docker build --no-cache -f Dockerfile -t katlas-service:${TRAVIS_COMMIT} .
   - docker images katlas-service:${TRAVIS_COMMIT}
-  - cd $TRAVIS_BUILD_DIR/app
-  - yarn test --coverage
-  - docker build --no-cache -f Dockerfile -t katlas-browser:${TRAVIS_COMMIT} .
-  - docker images katlas-browser:${TRAVIS_COMMIT}
+  #- cd $TRAVIS_BUILD_DIR/app
+  #- yarn test --coverage
+  #- docker build --no-cache -f Dockerfile -t katlas-browser:${TRAVIS_COMMIT} .
+  #- docker images katlas-browser:${TRAVIS_COMMIT}
 
 after_success:
-  - cd $TRAVIS_BUILD_DIR/service
-  - bash <(curl -s https://codecov.io/bash)
-  - cd $TRAVIS_BUILD_DIR/app
-  - bash <(curl -s https://codecov.io/bash) -f coverage/coverage-final.json
+  #- cd $TRAVIS_BUILD_DIR/service
+  #- bash <(curl -s https://codecov.io/bash)
+  #- cd $TRAVIS_BUILD_DIR/app
+  #- bash <(curl -s https://codecov.io/bash) -f coverage/coverage-final.json
   #- cd $TRAVIS_BUILD_DIR/service
   #- go run server.go 2> output.out &
   #- docker run -d -p 8011:8011 katlas-service:${TRAVIS_COMMIT}
-  - docker run -it -p 8011:8011 --name katlas-service katlas-service:${TRAVIS_COMMIT}   http 127.0.0.1:9080
+  #- docker run -it -p 8011:8011 --name katlas-service katlas-service:${TRAVIS_COMMIT}   http 127.0.0.1:9080
+  - docker run -it -p 8011:8011 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   - sleep 10s
   - docker ps -a
   ##- cat ./output.out
