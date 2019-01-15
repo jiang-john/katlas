@@ -43,7 +43,8 @@ after_success:
   - export SERVER_TYPE=http
   - export HOST_IP_ADDRESS="$(/sbin/ip route|awk '/default/ { print $3 }')"
   - export DGRAPH_HOST=HOST_IP_ADDRESS:9080
-  - echo DGRAPH_HOST
+  - echo $DGRAPH_HOST
+  - ifconfig
   #- export DGRAPH_HOST=127.0.0.1:9080
   - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   - sleep 10s
