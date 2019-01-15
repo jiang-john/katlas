@@ -47,7 +47,9 @@ after_success:
   - docker ps -a
   ##- cat ./output.out
   - lsof -i :8011
+  - sleep 2s
   - statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
+  - sleep 3s
   - echo $statusCode
   - |
     if [ $statusCode -ne "200" ]; then
