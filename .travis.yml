@@ -47,15 +47,15 @@ after_success:
   - ifconfig
   - cat /etc/hosts
   #- export DGRAPH_HOST=127.0.0.1:9080
-  #- docker run --network host -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - docker run --network host -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+
   - sleep 10s
   - docker ps -a
   ##- cat ./output.out
   - lsof -i :8011
   - sleep 2s
   - statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
-  - statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
+  #- statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
   - sleep 3s
   - echo $statusCode
   - |
