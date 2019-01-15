@@ -42,7 +42,7 @@ after_success:
   - export ENV_NAMESPACE=localhost
   - export SERVER_TYPE=http
   - export DGRAPH_HOST=127.0.0.1:9080
-  - docker run -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   - sleep 10s
   - docker ps -a
   ##- cat ./output.out
