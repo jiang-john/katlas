@@ -17,8 +17,8 @@ install:
 before_script:
   - docker pull dgraph/dgraph
   - mkdir -p /tmp/data
-  #- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
-  - docker run --network host -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
+  - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
+  #- docker run --network host -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
 
 script:
@@ -45,8 +45,8 @@ after_success:
   - ifconfig
   - cat /etc/hosts
   
-  #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - docker run --network host -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  #- docker run --network host -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   - ip addr show
   - sudo netstat -tulpn | grep :8011
   - sleep 10s
