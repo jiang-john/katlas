@@ -55,7 +55,9 @@ after_success:
   - sleep 2s
   - lsof -i :8011
   - sleep 2s
-  - curl http://localhost:8011
+  # Check service health
+  - curl -sw '%{http_code}' http://127.0.0.1:8011
+  # Check connecting dgraph db
   - curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod
   - sleep 2s
   #- curl -sw '%{http_code}\n' http://host.docker.internal:8011/v1/query?name=pod
