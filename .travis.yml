@@ -45,11 +45,12 @@ after_success:
   - cat /etc/hosts
   
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - docker run -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
 
   - sleep 10s
   - docker ps -a
   ##- cat ./output.out
+  - sleep 2s
   - lsof -i :8011
   - sleep 2s
   - curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod
