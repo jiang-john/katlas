@@ -22,6 +22,7 @@ before_script:
   #- docker run --network host -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
   - lsof -i :9080
+  - docker version
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
