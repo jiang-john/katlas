@@ -50,6 +50,9 @@ after_success:
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run --network host -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  - docker network ls
+  - docker network inspect host
+  - docker network inspect bridge
   - ip addr show
   - sudo netstat -tulpn | grep :8011
   - sleep 10s
