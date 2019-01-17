@@ -50,7 +50,38 @@ after_success:
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - docker run --network host -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  #- docker run --network host -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  - docker run --network bridge -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  - docker network ls
+  - docker network inspect host
+  - docker network inspect bridge
+  - ip addr show
+  - sudo netstat -tulpn | grep :8011
+  - sleep 10s
+  - docker ps -a
+  ##- cat ./output.out
+  - sleep 2s
+  - lsof -i :8011
+  - sleep 2s
+  - curl -sw '%{http_code}\n' http://127.0.0.1:9080/health
+  # Check service health
+  - curl -sw '%{http_code}\n' http://127.0.0.1:8011
+  - curl -sw '%{http_code}\n' http://localhost:8011
+  # Check connecting dgraph db
+  - curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod
+  - sleep 2s
+  #- curl -sw '%{http_code}\n' http://host.docker.internal:8011/v1/query?name=pod
+  #- statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
+  - statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
+  - sleep 2s
+  - echo $statusCode
+  - |
+    if [ $statusCode -ne "200" ]; then
+        echo "Integration Test - Fail!";
+    else
+    	  echo "Integration Test - Success!";
+    fi
+
   - docker network ls
   - docker network inspect host
   - docker network inspect bridge
