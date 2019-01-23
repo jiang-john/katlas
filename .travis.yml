@@ -99,7 +99,7 @@ after_success:
   #- curl -sw '%{http_code}\n' http://host.docker.internal:8011/v1/query?name=pod
   #- statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
   #- statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
-  - statusCode=$(curl -sw '%{http_code}\n' http://hostname:8011/v1/query?name=pod -o /dev/null)
+  - statusCode=$(curl -sw '%{http_code}\n' http://$hostname:8011/v1/query?name=pod -o /dev/null)
   ##- sleep 2s
   ##- echo $statusCode
   - |
