@@ -98,15 +98,15 @@ after_success:
   #- sleep 2s
   #- curl -sw '%{http_code}\n' http://host.docker.internal:8011/v1/query?name=pod
   #- statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
-  ##- statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
+  - statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
   ##- sleep 2s
   ##- echo $statusCode
-  ##- |
-    ##if [ $statusCode -ne "200" ]; then
-        ##echo "Integration Test - Fail!";
-    ##else
-    	  ##echo "Integration Test - Success!";
-    ##fi
+  - |
+    if [ $statusCode -ne "200" ]; then
+        echo "Integration Test - Fail!";
+    else
+    	  echo "Integration Test - Success!";
+    fi
 deploy:
   provider: script
   script: bash docker_push
