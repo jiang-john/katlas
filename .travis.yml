@@ -16,19 +16,20 @@ install:
 
 before_script:
   # Configure the Linux kernel to allow IP forwarding
-  - sudo sysctl net.ipv4.conf.all.forwarding=1
+  #- sudo sysctl net.ipv4.conf.all.forwarding=1
   # Change the policy for the iptables FORWARD policy from DROP to ACCEPT
-  - sudo iptables -P FORWARD ACCEPT
-  - docker pull dgraph/dgraph
-  - mkdir -p /tmp/data
+  #- sudo iptables -P FORWARD ACCEPT
+  ##- docker pull dgraph/dgraph
+  ##- mkdir -p /tmp/data
   #- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run -d -it -p 127.0.0.1:5080:5080 -p 127.0.0.1:6080:6080 -p 127.0.0.1:8080:8080 -p 127.0.0.1:9080:9080 -p 127.0.0.1:8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run --network host -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
-  - docker network create my-net
-  - docker run --network my-net -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
-  - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
-  - docker version
+  #- docker network create my-net
+  #- docker run --network my-net -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
+  ##- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
+  ##- docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
+  #- docker version
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
@@ -41,6 +42,7 @@ script:
   #- docker images katlas-browser:${TRAVIS_COMMIT}
 
 after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   #- cd $TRAVIS_BUILD_DIR/service
   #- bash <(curl -s https://codecov.io/bash)
   #- cd $TRAVIS_BUILD_DIR/app
@@ -59,48 +61,53 @@ after_success:
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run --network host -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run --network bridge -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - docker run --network my-net -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.18.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - sleep 3s
-  - docker container ls
-  - docker attach diggy
-  - ip addr show
-  - ping -c 2 google.com
-  - ping -c 2 172.18.0.3
-  - ping -c 2 katlas-service
-  - docker attach --sig-proxy=false diggy
-  - docker attach katlas-service
-  - ip addr show
-  - ping -c 2 google.com
-  - ping -c 2 172.18.0.2
-  - ping -c 2 diggy
-  - docker attach --sig-proxy=false katlas-service
-  - docker network ls
-  - docker network inspect my-net
-  - docker network inspect host
-  - docker network inspect bridge
-  - ip addr show
-  - sudo netstat -tulpn | grep :8011
-  - sleep 10s
-  - docker ps -a
+  ##- docker run --network my-net -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.18.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
+  #- sleep 3s
+  #- docker container ls
+  #- docker attach diggy
+  #- ip addr show
+  #- ping -c 2 google.com
+  #- ping -c 2 172.18.0.3
+  #- ping -c 2 katlas-service
+  #- docker attach --sig-proxy=false diggy
+  #- docker attach katlas-service
+  #- ip addr show
+  #- ping -c 2 google.com
+  #- ping -c 2 172.18.0.2
+  #- ping -c 2 diggy
+  #- docker attach --sig-proxy=false katlas-service
+  #- docker network ls
+  #- docker network inspect my-net
+  #- docker network inspect host
+  #- docker network inspect bridge
+  #- ip addr show
+  #- sudo netstat -tulpn | grep :8011
+  #- sleep 10s
+  #- docker ps -a
   ##- cat ./output.out
-  - sleep 2s
-  - lsof -i :8011
-  - sleep 2s
-  - curl -sw '%{http_code}\n' http://127.0.0.1:9080/health
+  #- sleep 2s
+  #- lsof -i :8011
+  #- sleep 2s
+  #- curl -sw '%{http_code}\n' http://127.0.0.1:9080/health
   # Check service health
-  - curl -sw '%{http_code}\n' http://127.0.0.1:8011
-  - curl -sw '%{http_code}\n' http://localhost:8011
+  #- curl -sw '%{http_code}\n' http://127.0.0.1:8011
+  #- curl -sw '%{http_code}\n' http://localhost:8011
   # Check connecting dgraph db
-  - curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod
-  - sleep 2s
+  #- curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod
+  #- sleep 2s
   #- curl -sw '%{http_code}\n' http://host.docker.internal:8011/v1/query?name=pod
   #- statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
-  - statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
-  - sleep 2s
-  - echo $statusCode
-  - |
-    if [ $statusCode -ne "200" ]; then
-        echo "Integration Test - Fail!";
-    else
-    	  echo "Integration Test - Success!";
-    fi
+  ##- statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
+  ##- sleep 2s
+  ##- echo $statusCode
+  ##- |
+    ##if [ $statusCode -ne "200" ]; then
+        ##echo "Integration Test - Fail!";
+    ##else
+    	  ##echo "Integration Test - Success!";
+    ##fi
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: travis
