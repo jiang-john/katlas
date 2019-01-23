@@ -19,21 +19,21 @@ before_script:
   #- sudo sysctl net.ipv4.conf.all.forwarding=1
   # Change the policy for the iptables FORWARD policy from DROP to ACCEPT
   #- sudo iptables -P FORWARD ACCEPT
-  - docker pull dgraph/dgraph
-  - mkdir -p /tmp/data
+  ##- docker pull dgraph/dgraph
+  ##- mkdir -p /tmp/data
   #- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run -d -it -p 127.0.0.1:5080:5080 -p 127.0.0.1:6080:6080 -p 127.0.0.1:8080:8080 -p 127.0.0.1:9080:9080 -p 127.0.0.1:8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run --network host -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker network create my-net
   #- docker run --network my-net -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
-  - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
-  - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
+  ##- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
+  ##- docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
   #- docker version
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
-  - go test -v ./... -coverprofile=coverage.txt -covermode=atomic
+  ##- go test -v ./... -coverprofile=coverage.txt -covermode=atomic
   #- docker build --no-cache -f Dockerfile -t katlas-service:${TRAVIS_COMMIT} .
   - docker build --no-cache -f Dockerfile -t xjiang1/katlas-service:${TRAVIS_COMMIT} .
   - docker images xjiang1/katlas-service:${TRAVIS_COMMIT}
