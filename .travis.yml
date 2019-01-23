@@ -51,11 +51,11 @@ after_success:
   #- cd $TRAVIS_BUILD_DIR/service
   #- go run server.go 2> output.out &
 
-  - export ENV_NAMESPACE=localhost
-  - export SERVER_TYPE=http
-  - echo $DGRAPH_HOST
-  - ifconfig
-  - cat /etc/hosts
+  ##- export ENV_NAMESPACE=localhost
+  ##- export SERVER_TYPE=http
+  ##- echo $DGRAPH_HOST
+  ##- ifconfig
+  #- cat /etc/hosts
   #- docker run -d -it -p 127.0.0.1:8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=host.docker.internal:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
