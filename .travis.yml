@@ -14,7 +14,7 @@ install:
   - cd $TRAVIS_BUILD_DIR/service && make all
   #- cd $TRAVIS_BUILD_DIR/app && yarn install
 
-before_script:
+#before_script:
   # Configure the Linux kernel to allow IP forwarding
   #- sudo sysctl net.ipv4.conf.all.forwarding=1
   # Change the policy for the iptables FORWARD policy from DROP to ACCEPT
@@ -29,7 +29,7 @@ before_script:
   #- docker run --network my-net -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   ##- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   ##- docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
-  - docker version
+  #- docker version
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
