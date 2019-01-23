@@ -43,7 +43,7 @@ script:
   #- docker images katlas-browser:${TRAVIS_COMMIT}
 
 after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # no need- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   #- cd $TRAVIS_BUILD_DIR/service
   #- bash <(curl -s https://codecov.io/bash)
   #- cd $TRAVIS_BUILD_DIR/app
