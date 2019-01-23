@@ -29,14 +29,14 @@ before_script:
   #- docker run --network my-net -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   ##- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   ##- docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
-  #- docker version
+  - docker version
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
   #- go test -v ./... -coverprofile=coverage.txt -covermode=atomic
   #- docker build --no-cache -f Dockerfile -t katlas-service:${TRAVIS_COMMIT} .
   - docker build --no-cache -f Dockerfile -t xjiang1/katlas-service:${TRAVIS_COMMIT} .
-  - docker images katlas-service:${TRAVIS_COMMIT}
+  - docker images xjiang1/katlas-service:${TRAVIS_COMMIT}
   #- cd $TRAVIS_BUILD_DIR/app
   #- yarn test --coverage
   #- docker build --no-cache -f Dockerfile -t katlas-browser:${TRAVIS_COMMIT} .
