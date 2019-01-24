@@ -31,7 +31,7 @@ before_script:
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
   #- docker version
   - TRAVIS_COMMIT_SHORTID="${TRAVIS_COMMIT:0:7}"
-  - echo "TRAVIS_COMMIT_SHORTID: ${TRAVIS_COMMIT_SHORTID}"
+  - echo "${TRAVIS_COMMIT_SHORTID}"
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
