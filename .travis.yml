@@ -109,19 +109,9 @@ after_success:
     else
     	  echo "Integration Test - Success!";
     fi
-  - pwd
-  #- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
-  #- docker push xjiang1/katlas-service:${TRAVIS_COMMIT}
-  - docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT}
-#deploy:
-  #- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin hub.docker.com/
-  #echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  #docker push USER/REPO
 
-  #docker push xjiang1/katlas-service:v0.0.1
-  #- docker push xjiang1/katlas-service:${TRAVIS_COMMIT}
-  #provider: script
-  #script: bash docker_push.sh
-  #on:
-  #  branch: travis
+  # Login to docker hub
+  - echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
+  # Push image to docker hub: xjiang1/katlas-service:${TRAVIS_COMMIT}
+  - docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT}
+
