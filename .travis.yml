@@ -30,7 +30,8 @@ before_script:
   - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
   #- docker version
-  - echo $DOCKER_USERNAME
+  - TRAVIS_COMMIT_SHORTID="${TRAVIS_COMMIT:0:7}"
+  - echo "${TRAVIS_COMMIT_SHORTID}"
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
@@ -111,8 +112,8 @@ after_success:
     fi
 
   # Login to docker hub
-  #- echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
-  - echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin >/dev/null 2>&1
+  ##- echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
+  #- echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin >/dev/null 2>&1
   # Push image to docker hub: xjiang1/katlas-service:${TRAVIS_COMMIT}
-  - docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT}
+  ##- docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT}
 
