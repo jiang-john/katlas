@@ -31,18 +31,18 @@ before_script:
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
   #- docker version
   - TRAVIS_COMMIT_SHORTID="${TRAVIS_COMMIT:0:7}"
-  - echo "${TRAVIS_COMMIT_SHORTID}"
+  - echo "TRAVIS_COMMIT_SHORTID: ${TRAVIS_COMMIT_SHORTID}"
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
   ##- go test -v ./... -coverprofile=coverage.txt -covermode=atomic
-  #- docker build --no-cache -f Dockerfile -t katlas-service:${TRAVIS_COMMIT} .
-  - docker build --no-cache -f Dockerfile -t xjiang1/katlas-service:${TRAVIS_COMMIT} .
-  - docker images xjiang1/katlas-service:${TRAVIS_COMMIT}
+  #- docker build --no-cache -f Dockerfile -t katlas-service:${TRAVIS_COMMIT_SHORTID} .
+  - docker build --no-cache -f Dockerfile -t xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID} .
+  - docker images xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- cd $TRAVIS_BUILD_DIR/app
   #- yarn test --coverage
-  #- docker build --no-cache -f Dockerfile -t katlas-browser:${TRAVIS_COMMIT} .
-  #- docker images katlas-browser:${TRAVIS_COMMIT}
+  #- docker build --no-cache -f Dockerfile -t katlas-browser:${TRAVIS_COMMIT_SHORTID} .
+  #- docker images katlas-browser:${TRAVIS_COMMIT_SHORTID}
 
 after_success:
   # no need- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -112,8 +112,8 @@ after_success:
     fi
 
   # Login to docker hub
-  ##- echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
+  - echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
   #- echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin >/dev/null 2>&1
-  # Push image to docker hub: xjiang1/katlas-service:${TRAVIS_COMMIT}
-  ##- docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT}
+  # Push image to docker hub: xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
+  - docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT_SHORTID}
 
