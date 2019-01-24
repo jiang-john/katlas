@@ -112,8 +112,8 @@ after_success:
     fi
 
   # Login to docker hub
-  - echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
+  ##- echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin
   #- echo "$DOCKER_PASSWORD" |docker login -u $DOCKER_USERNAME --password-stdin >/dev/null 2>&1
   # Push image to docker hub: xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
-  - docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT_SHORTID}
+  ##- docker push $DOCKER_USERNAME/katlas-service:${TRAVIS_COMMIT_SHORTID}
 
