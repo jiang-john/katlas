@@ -63,7 +63,7 @@ after_success:
   
   - curl http://172.17.0.1:8080/health
   - curl http://127.0.0.1:8080/health
-  - curl localhost:8080/query -XPOST -d $'{me(func: allofterms(name, “pod")){expand(_all_) } }'
+  - curl localhost:8080/query -XPOST -d $‘{ me(func: has(starring)) {name}}’
 
   #not working- curl http://10.30.0.20:8080/health
   #- cat /etc/hosts
