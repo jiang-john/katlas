@@ -19,7 +19,7 @@ before_script:
   #- sudo sysctl net.ipv4.conf.all.forwarding=1
   # Change the policy for the iptables FORWARD policy from DROP to ACCEPT
   #- sudo iptables -P FORWARD ACCEPT
-  - docker pull dgraph/dgraph
+  - docker pull dgraph/dgraph:v1.0.12-rc2
   - mkdir -p /tmp/data
   #- docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run -d -it -p 127.0.0.1:5080:5080 -p 127.0.0.1:6080:6080 -p 127.0.0.1:8080:8080 -p 127.0.0.1:9080:9080 -p 127.0.0.1:8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
