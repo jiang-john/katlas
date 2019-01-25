@@ -53,7 +53,7 @@ after_success:
   #- bash <(curl -s https://codecov.io/bash) -f coverage/coverage-final.json
   #- cd $TRAVIS_BUILD_DIR/service
   - go run server.go 2> output.out &
-
+  - sleep 20s
   ##- export ENV_NAMESPACE=localhost
   ##- export SERVER_TYPE=http
   ##- echo $DGRAPH_HOST
@@ -104,18 +104,18 @@ after_success:
   #- sleep 2s
   #- lsof -i :8011
   #- sleep 2s
-  #- curl -sw '%{http_code}\n' http://127.0.0.1:9080/health
+  - curl -sw '%{http_code}\n' http://127.0.0.1:9080/health
   # Check service health
-  #- curl -sw '%{http_code}\n' http://127.0.0.1:8011
+  - curl -sw '%{http_code}\n' http://127.0.0.1:8011
   #- curl -sw '%{http_code}\n' http://localhost:8011
   # Check connecting dgraph db
   #- curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod
   #- sleep 2s
   #- curl -sw '%{http_code}\n' http://host.docker.internal:8011/v1/query?name=pod
-  #- statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
+  - statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
   #- statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
   - statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
-  - statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod)
+  - curl http://localhost:8011/v1/query?name=pod
   ##- sleep 2s
   - echo $statusCode
   - |
