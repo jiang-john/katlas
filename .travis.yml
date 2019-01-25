@@ -58,6 +58,7 @@ after_success:
   ##- echo $DGRAPH_HOST
   - ifconfig -a
   - uname -a
+  - cat /etc/os-release
   #- cat /etc/hosts
   #- docker run -d -it -p 127.0.0.1:8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
