@@ -62,6 +62,8 @@ after_success:
   - ifconfig docker0|grep inet |awk -F":| " '{print $3}'
   
   - curl http://172.17.0.1:8080/health
+  - curl http://127.0.0.1:8080/health
+  - curl http://10.30.0.20:8080/health
   #- cat /etc/hosts
   #- docker run -d -it -p 127.0.0.1:8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
@@ -69,7 +71,8 @@ after_success:
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run --network host -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run --network bridge -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT}
+  #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
+  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=10.30.0.20:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- sleep 3s
   #- docker container ls
   #- docker attach diggy
