@@ -26,11 +26,11 @@ before_script:
   #- docker run -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run --network host -d -it -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker network create my-net
-  - docker network create katlas
+  #- docker network create katlas
   #- docker run --network my-net -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
-  - docker network connect katlas  diggy
+  #- docker network connect katlas  diggy
   #- docker version
   - TRAVIS_COMMIT_SHORTID="${TRAVIS_COMMIT:0:7}"
   - echo "${TRAVIS_COMMIT_SHORTID}"
@@ -54,6 +54,7 @@ after_success:
   #- cd $TRAVIS_BUILD_DIR/service
   - go run server.go 2> output.out &
   - sleep 20s
+  - docker logs diggy
   ##- export ENV_NAMESPACE=localhost
   ##- export SERVER_TYPE=http
   ##- echo $DGRAPH_HOST
