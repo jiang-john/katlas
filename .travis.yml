@@ -3,10 +3,6 @@ go_import_path: github.com/intuit/katlas
 
 dist: xenial
 language: go
-addons:
-  apt:
-    packages:
-      - net-tools
 
 go:
   - 1.11.x
@@ -19,7 +15,6 @@ install:
   #- cd $TRAVIS_BUILD_DIR/app && yarn install
 
 before_script:
-  - /sbin/ifconfig
   # Configure the Linux kernel to allow IP forwarding
   #- sudo sysctl net.ipv4.conf.all.forwarding=1
   # Change the policy for the iptables FORWARD policy from DROP to ACCEPT
@@ -33,7 +28,7 @@ before_script:
   #- docker network create my-net
   #- docker network create katlas
   #- docker run --network my-net -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
-  - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
+  - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 9080:9080 -p 8000:8000 -p 7080:7080 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
   - sleep 5s
   #- docker network connect katlas  diggy
