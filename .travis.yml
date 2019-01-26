@@ -3,6 +3,10 @@ go_import_path: github.com/intuit/katlas
 
 dist: xenial
 language: go
+addons:
+  apt:
+    packages:
+      - net-tools
 
 go:
   - 1.11.x
@@ -15,6 +19,7 @@ install:
   #- cd $TRAVIS_BUILD_DIR/app && yarn install
 
 before_script:
+  - /sbin/ifconfig
   # Configure the Linux kernel to allow IP forwarding
   #- sudo sysctl net.ipv4.conf.all.forwarding=1
   # Change the policy for the iptables FORWARD policy from DROP to ACCEPT
