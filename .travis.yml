@@ -34,6 +34,8 @@ before_script:
   #- docker version
   - TRAVIS_COMMIT_SHORTID="${TRAVIS_COMMIT:0:7}"
   - echo "${TRAVIS_COMMIT_SHORTID}"
+  - export HOST_IP_ADDRESS="$(/sbin/ip route|awk '/default/ { print $3 }')"
+  - echo $HOST_IP_ADDRESS
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
@@ -78,7 +80,8 @@ after_success:
   #- docker run --network bridge -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- docker run -d -it -p 8011:8011 --expose=9080 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
-  - docker run -d -it -p 8011:8011 --expose=9080 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
+  #- docker run -d -it -p 8011:8011 --expose=9080 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
+  - docker run -d -it -p 8011:8011 --expose=9080 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=$HOST_IP_ADDRESS:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   ##- docker network connect katlas  katlas-service
   # not working- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=10.30.0.20:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- sleep 3s
