@@ -15,6 +15,11 @@ install:
   #- cd $TRAVIS_BUILD_DIR/app && yarn install
 
 before_script:
+  - hostname
+  - hostname -i | awk '{print $1}'
+  - hostname -I | awk '{print $1}'
+  - export HOST_IP="$(hostname -i | awk '{print $1})'
+  - echo $HOST_IP
   # Configure the Linux kernel to allow IP forwarding
   #- sudo sysctl net.ipv4.conf.all.forwarding=1
   # Change the policy for the iptables FORWARD policy from DROP to ACCEPT
@@ -35,8 +40,8 @@ before_script:
   #- docker version
   - TRAVIS_COMMIT_SHORTID="${TRAVIS_COMMIT:0:7}"
   - echo "${TRAVIS_COMMIT_SHORTID}"
-  - export HOST_IP_ADDRESS="$(/sbin/ip route|awk '/default/ { print $3 }')"
-  - echo $HOST_IP_ADDRESS
+  #- export HOST_IP_ADDRESS="$(/sbin/ip route|awk '/default/ { print $3 }')"
+  #- echo $HOST_IP_ADDRESS
 
 script:
   - cd $TRAVIS_BUILD_DIR/service
@@ -80,7 +85,7 @@ after_success:
   #- docker run --network host -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run --network bridge -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
-  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
+  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=$HOST_IP:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- docker run -d -it -p 8011:8011 --expose=9080 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- docker run -d -it -p 8011:8011 --expose=9080 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=$HOST_IP_ADDRESS:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   ##- docker network connect katlas  katlas-service
@@ -121,6 +126,8 @@ after_success:
   - sleep 2s
   #- curl -sw '%{http_code}\n' http://host.docker.internal:8011/v1/query?name=pod
   - statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod)
+  - sleep 1s
+  - statusCode=$(curl -sw '%{http_code}\n' http://$HOST_IP:8011/v1/query?name=pod)
   #- statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod -o /dev/null)
   - statusCode=$(curl -sw '%{http_code}\n' http://localhost:8011/v1/query?name=pod)
   - curl http://localhost:8011/v1/query?name=pod
