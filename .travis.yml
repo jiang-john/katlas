@@ -105,7 +105,8 @@ after_success:
   #- ip addr show
   #- sudo netstat -tulpn | grep :8011
   #- sleep 10s
-  #- docker ps -a
+  - ifconfig -a
+  - docker ps -a
   ##- cat ./output.out
   #- sleep 2s
   #- lsof -i :8011
