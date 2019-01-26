@@ -16,9 +16,9 @@ install:
 
 before_script:
   - hostname
-  - hostname -i | awk '{print $1}'
-  - hostname -I | awk '{print $1}'
-  - export HOST_IP="$(hostname -i | awk '{print $1})'
+  - hostname -i
+  - hostname -I
+  - export HOST_IP="$(hostname -i | awk '{print $1})'"
   - echo $HOST_IP
   # Configure the Linux kernel to allow IP forwarding
   #- sudo sysctl net.ipv4.conf.all.forwarding=1
