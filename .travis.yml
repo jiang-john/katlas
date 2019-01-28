@@ -40,6 +40,16 @@ after_success:
   - go run server.go 2> output.out &
   - sleep 10s
   - docker ps -a
+  - docker network ls
+  - docker network inspect host
+  - docker network inspect bridge
+  - ip addr show
+  - sudo netstat -tulpn | grep :9080
+  - sudo netstat -tulpn | grep :8011
+  - sudo netstat -tulpn | grep :8080
+  - ifconfig -a
+  - docker ps -a
+  - sudo iptables -L -n
   ##- cat ./output.out
   - lsof -i :8011
   - statusCode=$(curl -sw '%{http_code}\n' http://127.0.0.1:8011/v1/query?name=pod -o /dev/null)
