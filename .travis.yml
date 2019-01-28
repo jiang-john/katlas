@@ -34,7 +34,7 @@ before_script:
   #- docker network create katlas
   #- docker run --network mynet -d -it --expose=9080 -p 172.17.0.1:5080:5080 -p 172.17.0.1:6080:6080 -p 172.17.0.1:8080:8080 -p 172.17.0.1:9080:9080 -p 172.17.0.1:8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   #- docker run -d -it --expose=9080 -p 127.0.0.1:5080:5080 -p 127.0.0.1:6080:6080 -p 127.0.0.1:8080:8080 -p 127.0.0.1:9080:9080 -p 127.0.0.1:8000:8000 -p 127.0.0.1:7080:7080 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
-  - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 127.17.0.1:9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
+  - docker run -d -it -p 5080:5080 -p 6080:6080 -p 8080:8080 -p 172.17.0.1:9080:9080 -p 8000:8000 -v /tmp/data:/dgraph --name diggy dgraph/dgraph dgraph zero
   - docker exec -d -it diggy dgraph alpha --lru_mb 2048 --zero localhost:5080
   - sleep 5s
   #- docker network connect katlas  diggy
