@@ -85,7 +85,7 @@ after_success:
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
   #- docker run --network host -d -it -p 127.0.0.1:8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=localhost:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- docker run --network bridge -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.2:9080 --name katlas-service katlas-service:${TRAVIS_COMMIT}
-  - docker run --network host -d -it -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
+  - docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- docker run -d -it -p 8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=$HOST_IP:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- docker run --network mynet -d -it -p 127.0.0.1:8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=127.0.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
   #- docker run --network mynet -d -it -P -p 172.17.0.1:8011:8011 -e ENV_NAMESPACE=qal -e SERVER_TYPE=http -e DGRAPH_HOST=172.17.0.1:9080 --name katlas-service xjiang1/katlas-service:${TRAVIS_COMMIT_SHORTID}
